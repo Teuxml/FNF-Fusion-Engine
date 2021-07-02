@@ -55,9 +55,10 @@ class MusicBeatState extends FlxUIState
 
 		updateCurStep();
 		updateBeat();
-		if (oldStep != curStep && curStep > 0){
+
+		if (oldStep != curStep && curStep > 0)
 			stepHit();
-		}
+
 		if (FlxG.save.data.fpsRain && skippedFrames >= 6)
 			{
 				if (currentColor >= array.length)
@@ -69,7 +70,7 @@ class MusicBeatState extends FlxUIState
 			else
 				skippedFrames++;
 
-		if ((cast (Lib.current.getChildAt(0), Main)).getFPSCap != FlxG.save.data.fpsCap)
+		if ((cast (Lib.current.getChildAt(0), Main)).getFPSCap != FlxG.save.data.fpsCap && FlxG.save.data.fpsCap <= 290)
 			(cast (Lib.current.getChildAt(0), Main)).setFPSCap(FlxG.save.data.fpsCap);
 
 		super.update(elapsed);
@@ -101,14 +102,22 @@ class MusicBeatState extends FlxUIState
 
 	public function stepHit():Void
 	{
-		
-		if (curStep % 4 == 0){
+
+		if (curStep % 4 == 0)
 			beatHit();
-		}
 	}
 
 	public function beatHit():Void
 	{
 		//do literally nothing dumbass
+	}
+	
+	public function fancyOpenURL(schmancy:String)
+	{
+		#if linux
+		Sys.command('/usr/bin/xdg-open', [schmancy, "&"]);
+		#else
+		FlxG.openURL(schmancy);
+		#end
 	}
 }
